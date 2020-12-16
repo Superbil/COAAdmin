@@ -12,7 +12,7 @@ var graphOptions = function graphOptionsFunct() {
     var   resetOption = document.getElementById('resetOption')
         , sliderOption = document.getElementById('sliderOption');
 
-    d3.select(resetOption) 
+    d3.select(resetOption)
         .append("button")
         .attr("id", "reset")
         .property("type", "reset")
@@ -45,7 +45,7 @@ var loadGraph = function loadGraphFunct() {
     d3.json("/foaf" + ".json", function(error, data) {
         json = data;
         var graphElement = document.getElementById('graph');
-        // console.log(graphTag2);
+        // console.log(graphElement);
         console.log(json);
         drawGraph(graphElement, width, height, json);
     });

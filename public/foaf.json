@@ -1,15 +1,15 @@
-	{	
-    "info": [	
-        {	
-            "title": "Friend of a Friend (FOAF) vocabulary",	
-            "url": "http://xmlns.com/foaf/0.1/",	
-            "version": "0.99 (Jan 2014)",	
-            "authors": "Dan Brickley, Libby Miller",	
-            "description": "The Friend of a Friend (FOAF) RDF vocabulary, described using W3C RDF Schema and the Web Ontology Language."	
-        }	
-    ],	
-    "nodes": [	
-       	
+{
+    "info": [
+        {
+            "title": "Friend of a Friend (FOAF) vocabulary",
+            "url": "http://xmlns.com/foaf/0.1/",
+            "version": "0.99 (Jan 2014)",
+            "authors": "Dan Brickley, Libby Miller",
+            "description": "The Friend of a Friend (FOAF) RDF vocabulary, described using W3C RDF Schema and the Web Ontology Language."
+        }
+    ],
+    "nodes": [
+
         {"name": "Farmer", "type": "rdfsClass", "uri": ""},
         {"name": "Producting and Marketing Group", "type": "rdfsClass", "uri": ""},
         {"name": "foaf:Organization", "type": "rdfsClass", "uri": ""},
@@ -17,7 +17,7 @@
 
         {"name": "Traceable Agricultural Product", "type": "class", "uri": ""},
         {"name": "agrovoc:Agricultural Product", "type": "class", "uri": ""},
-        {"name": "agrovoc:Product", "type": "class", "uri": ""},      
+        {"name": "agrovoc:Product", "type": "class", "uri": ""},
         {"name": "xsd:Integer", "type": "literal", "uri": ""},
         {"name": "xsd:String", "type": "literal", "uri": ""},
 
@@ -28,33 +28,33 @@
         {"name": "Fertilizer", "type": "class", "uri": ""},
         {"name": "Pesticide", "type": "class", "uri": ""},
         {"name": "xsd:date", "type": "literal", "uri": ""},
-   
+
         {"name": "Crop", "type": "class", "uri": ""},
         {"name": "agrovoc:Crop", "type": "class", "uri": ""},
 
         {"name": "Site", "type": "deprecated", "uri": ""},
-      
+
         {"name": "geo:Feature", "type": "deprecated", "uri": ""},
         {"name": "Farm", "type": "deprecated", "uri": ""},
         {"name": "geo:Point", "type": "deprecated", "uri": ""},
         {"name": "geo:Geometry", "type": "deprecated", "uri": ""},
         {"name": "geo:wktLiteral", "type": "literal", "uri": ""}
-       		
-    ],	
-    "links": [	
-        {"source": 0, "target": 3, "valueTo": "owl:subClassOf", "propertyTo": "subclass", "uriTo": ""},	
+
+    ],
+    "links": [
+        {"source": 0, "target": 3, "valueTo": "owl:subClassOf", "propertyTo": "subclass", "uriTo": ""},
         {"source": 0, "target": 1, "valueTo": "inAGroup", "propertyTo": "subclass", "uriTo": ""},
         {"source": 1, "target": 2, "valueTo": "owl:subClassOf", "propertyTo": "subclass", "uriTo": ""},
-        
-        {"source": 4, "target": 5, "valueTo": "skos:exactMatch", "propertyTo": "subclass", "uriTo": ""},	
+
+        {"source": 4, "target": 5, "valueTo": "skos:exactMatch", "propertyTo": "subclass", "uriTo": ""},
         {"source": 5, "target": 6, "valueTo": "owl:subClassOf", "propertyTo": "subclass", "uriTo": ""},
         {"source": 4, "target": 7, "valueTo": "traceNumber", "propertyTo": "subclass", "uriTo": ""},
         {"source": 4, "target": 8, "valueTo": "name", "propertyTo": "subclass", "uriTo": ""},
-        
+
         {"source": 4, "target": 0, "valueTo": "isOperatedby", "propertyTo": "subclass", "uriTo": ""},
 
         {"source": 4, "target": 9, "valueTo": "isProcessedBy", "propertyTo": "subclass", "uriTo": ""},
-        
+
         {"source": 9, "target": 10, "valueTo": "useTool", "propertyTo": "subclass", "uriTo": ""},
         {"source": 11, "target": 10, "valueTo": "owl:subClassOf", "propertyTo": "subclass", "uriTo": ""},
         {"source": 9, "target": 12, "valueTo": "useMaterial", "propertyTo": "subclass", "uriTo": ""},
@@ -64,18 +64,18 @@
 
         {"source": 4, "target": 16, "valueTo": "isACrop", "propertyTo": "subclass", "uriTo": ""},
         {"source": 16, "target": 17, "valueTo": "skos:exactMatch", "propertyTo": "subclass", "uriTo": ""},
-        
+
         {"source": 16, "target": 18, "valueTo": "isPlantedAt", "propertyTo": "subclass", "uriTo": ""},
         {"source": 9, "target": 18, "valueTo": "isOperatedAt", "propertyTo": "subclass", "uriTo": ""},
-        
+
         {"source": 18, "target": 19, "valueTo": "owl:subClassOf", "propertyTo": "subclass", "uriTo": ""},
         {"source": 18, "target": 20, "valueTo": "isLocatedAt", "propertyTo": "subclass", "uriTo": ""},
         {"source": 20, "target": 19, "valueTo": "owl:subClassOf", "propertyTo": "subclass", "uriTo": ""},
-        
+
         {"source": 18, "target": 21, "valueTo": "geo:hasGeometry", "propertyTo": "subclass", "uriTo": ""},
-        {"source": 21, "target": 22, "valueTo": "owl:subClassOf", "propertyTo": "subclass", "uriTo": ""}, 
+        {"source": 21, "target": 22, "valueTo": "owl:subClassOf", "propertyTo": "subclass", "uriTo": ""},
         {"source": 21, "target": 23, "valueTo": "geo:asWKT", "propertyTo": "subclass", "uriTo": ""}
-       
+
 
 
 
