@@ -88,9 +88,9 @@
 
        var url = endpoint + "?query=" + encodeURIComponent(sparql+sparqlb) + "&output=JSON"
        var url2 = endpoint + "?query=" + encodeURIComponent(sparql2+sparqlb2) + "&output=JSON"
-       var url3 = "http://140.112.76.152/api/post/3"
-       var url4 = "http://140.112.76.152/api/post/3"
-       var url5 = "http://140.112.76.152/api/post/3"
+       var url3 = "http://atb.bse.ntu.edu.tw/api/post/3"
+       var url4 = "http://atb.bse.ntu.edu.tw/api/post/3"
+       var url5 = "http://atb.bse.ntu.edu.tw/api/post/3"
        var mime = "application/sparql-results+json"
        var mime2 = "application/sparql-results+json"
        var mime3 = "application/sparql-results+json"

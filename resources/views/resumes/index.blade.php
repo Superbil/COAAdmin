@@ -138,52 +138,52 @@
                         <p class="project more">
                             <em></em>
                              @if($l->task_url)
-                            <a href="http://140.112.76.152/diagramO?{{ $l->task??'--' }}" target="_blank">
-                                {{ trans('custom.event') }}:{{ $l->task??'--' }}
-                            </a>
-                            @else 
-                            <a href="http://140.112.76.152/diagramO?{{ $l->task??'--' }}" target="_blank">
-                                {{ trans('custom.event') }}:{{ $l->task??'--' }}
-                            @endif
-                           <!--
-                            -->
+                               <a href="http://atb.bse.ntu.edu.tw/diagramO?{{ $l->task??'--' }}" target="_blank">
+                                 {{ trans('custom.event') }}:{{ $l->task??'--' }}
+                               </a>
+                             @else 
+                               <a href="http://atb.bse.ntu.edu.tw/diagramO?{{ $l->task??'--' }}" target="_blank">
+                                 {{ trans('custom.event') }}:{{ $l->task??'--' }}
+                             @endif
+                             <!--
+                             -->
                         </p>
                         <p class="operators more">
-                            @if($l->location_url)
-                            <a href="http://140.112.76.152/diagramS?{{ $l->location??'--' }}" target="_blank">
-                                {{ trans('custom.place') }}:{{ $l->location??'--' }}
+                          @if($l->location_url)
+                            <a href="http://atb.bse.ntu.edu.tw/diagramS?{{ $l->location??'--' }}" target="_blank">
+                              {{ trans('custom.place') }}:{{ $l->location??'--' }}
                             </a>
-                            @else
-                            <a href="http://140.112.76.152/diagramS?{{ $l->location??'--' }}" target="_blank">
-                                {{ trans('custom.place') }}:{{ $l->location??'--' }}
-                            @endif
+                          @else
+                            <a href="http://atb.bse.ntu.edu.tw/diagramS?{{ $l->location??'--' }}" target="_blank">
+                              {{ trans('custom.place') }}:{{ $l->location??'--' }}
+                          @endif
                         </p>
                         <p class="tool more">
-                            @if($l->tool_url)
-                            <a href="http://140.112.76.152/diagramT?{{ $l->tool??'--' }}" target="_blank">
-                                {{$l->tool_type??'--'}}:{{ $l->tool??'--' }}
+                          @if($l->tool_url)
+                            <a href="http://atb.bse.ntu.edu.tw/diagramT?{{ $l->tool??'--' }}" target="_blank">
+                              {{$l->tool_type??'--'}}:{{ $l->tool??'--' }}
                             </a>
-                            @else
-                            <a href="http://140.112.76.152/diagramT?{{ $l->tool??'--' }}" target="_blank">
-                                {{$l->tool_type??'--'}}:{{ $l->tool??'--' }}
-                            @endif
+                          @else
+                            <a href="http://atb.bse.ntu.edu.tw/diagramT?{{ $l->tool??'--' }}" target="_blank">
+                              {{$l->tool_type??'--'}}:{{ $l->tool??'--' }}
+                          @endif
                         </p>
                         <p class="explain more">
-                            @if($l->remark_url)
-                            <a href="http://140.112.76.152/diagramT?XXXXXXXXX" target="_blank">
-                            {{ trans('custom.note') }}:{{ $l->remark??'--' }}
+                          @if($l->remark_url)
+                            <a href="http://atb.bse.ntu.edu.tw/diagramT?XXXXXXXXX" target="_blank">
+                              {{ trans('custom.note') }}:{{ $l->remark??'--' }}
                             </a>
-                            @else
-                            <a href="http://140.112.76.152/diagramT?XXXXXXXXX" target="_blank">
-                            {{ trans('custom.note') }}:{{ $l->remark??'--' }}
-                            @endif
+                          @else
+                            <a href="http://atb.bse.ntu.edu.tw/diagramT?XXXXXXXXX" target="_blank">
+                              {{ trans('custom.note') }}:{{ $l->remark??'--' }}
+                          @endif
                         </p>
                         @if(!empty($l->more_info_url))
-                        <p class="more">
+                          <p class="more">
                             <a href="{{$l->more_info_url??''}}" target="_blank">
-                                {{ trans('custom.more_info') }}
+                              {{ trans('custom.more_info') }}
                             </a>
-                        </p>
+                          </p>
                         @endif
                     </div>
                 </div>
@@ -195,12 +195,12 @@
     </main>
     <!--下版-->
     <footer id="footer">
-        <div class="inner">
-            <p>{{ trans('custom.sponsor') }}</p>
-            <p>{{ trans('custom.maintain') }}</p>
-            <p>{{ trans('custom.location') }}</p>
-            <p>{{ trans('custom.service_line') }}：+886-2-33663468</p>
-        </div>
+      <div class="inner">
+        <p>{{ trans('custom.sponsor') }}</p>
+        <p>{{ trans('custom.maintain') }}</p>
+        <p>{{ trans('custom.location') }}</p>
+        <p>{{ trans('custom.service_line') }}：+886-2-33663468</p>
+      </div>
     </footer>
     <!--Web jquery-->
     <script src="{{ asset('js/jquery-1.11.3.js') }}"></script>
@@ -209,152 +209,152 @@
     <script src="{{ asset('calendar/zabuto_calendar.min.js') }}"></script>
     <script src="{{ asset('js/jquery.scrollTo.min.js') }}"></script>
     <script>
-        var $calendar = null;
-      //  var sasda=$productInfo.find('h3.harvesting').text();
-        $(document).ready(function () {
-            $("#rwd_nav").pageslide({
-                modal: true
-            });
-            @if(!$logs->isEmpty())
-            $calendar = $("#calendar").zabuto_calendar({
-                language: "en",
-                data: @json($dates),
-                today: false,
-                show_days: true,
-                year: "{{ $year??null }}",
-                month: "{{ $month??null }}",
-                weekstartson: 1,
-                cell_border: true,
-                nav_icon: {
-                    prev: '<i class="fa fa-angle-left"></i>',
-                    next: '<i class="fa fa-angle-right"></i>'
-                },
-                action: function () {
-                    return onDateSelected(this.id, false);
-                },
-            });
-            $("#"+$calendar.attr('id')+"_{{ $dates[0]['date'] }}").click();
-            $.ajax({
-                url: "{{ route('resumes.validation') }}",
-                type: 'GET',
-                data: { 'products[]':{!! $products->pluck('product_id') !!} },
-                success: function (response, textStatus, jqXhr) {
-                    $( ".vfc_btn" ).each(function( index ) {
-                        $(this).find(".lds-ring").hide();
-                        if(response[$(this).attr('id').substr(2)]){
-                            $(this).removeClass("ok no").addClass("ok");
-                            $(this).find(".text").text("{{ trans('custom.verified') }}").show();
-                        }
-                        else{
-                            $(this).removeClass("ok no").addClass("no");
-                            $(this).find(".text").text("{{ trans('custom.unverified') }}").show();
-                        }
-                    });
-                },
-                error: function(r, textStatus, err){
-                    console.error(r.responseJSON.message);
-                },
-                complete: function () {
-                }
-            });
-            @endif
-        });
-        // 選擇日期事件
-        function onDateSelected(id, fromModal) {
-            $(".zabuto_calendar .table td.active").removeClass('active');
-            $("#" + id).addClass('active');
-            var date = $("#" + id).data("date");
-            var hasEvent = $("#" + id).data("hasEvent");
-            if (hasEvent) {
-                $('#verification').scrollTo('[data-scroll='+date+']:first', 1000, 'swing');
-                selectResume($('[data-scroll='+date+']:first'));
-            }
-        }
-        var $productInfo = $('#rsu_info');
-        var $productAlert = $('p.no_results');
-        var $productVerification = $('#verification');
-        
-        $('#verification .vfc_box').click(function(){
-            $calendar.empty();
-            $("#search").append("<div id='calendar'></div>")
-            var dates = $(this).attr('data-scroll').split('-');
-            $calendar = $("#calendar").zabuto_calendar({
-                language: "en",
-                data: @json($dates),
-                today: false,
-                show_days: true,
-                year: dates[0],
-                month: dates[1],
-                weekstartson: 1,
-                cell_border: true,
-                nav_icon: {
-                    prev: '<i class="fa fa-angle-left"></i>',
-                    next: '<i class="fa fa-angle-right"></i>'
-                },
-                action: function () {
-                    return onDateSelected(this.id, false);
-                },
-            });
-            $(".zabuto_calendar .table td.active").removeClass('active');
-            $("#"+$calendar.attr('id')+"_"+$(this).attr('data-scroll')).addClass('active');
-            // $("#"+$calendar.attr('id')+"_"+$(this).attr('data-scroll')).click();
-            selectResume($(this));
-        });
+     var $calendar = null;
+     //  var sasda=$productInfo.find('h3.harvesting').text();
+     $(document).ready(function () {
+       $("#rwd_nav").pageslide({
+         modal: true
+       });
+       @if(!$logs->isEmpty())
+       $calendar = $("#calendar").zabuto_calendar({
+         language: "en",
+         data: @json($dates),
+         today: false,
+         show_days: true,
+         year: "{{ $year??null }}",
+         month: "{{ $month??null }}",
+         weekstartson: 1,
+         cell_border: true,
+         nav_icon: {
+           prev: '<i class="fa fa-angle-left"></i>',
+           next: '<i class="fa fa-angle-right"></i>'
+         },
+         action: function () {
+           return onDateSelected(this.id, false);
+         },
+       });
+       $("#"+$calendar.attr('id')+"_{{ $dates[0]['date'] }}").click();
+       $.ajax({
+         url: "{{ route('resumes.validation') }}",
+         type: 'GET',
+         data: { 'products[]':{!! $products->pluck('product_id') !!} },
+         success: function (response, textStatus, jqXhr) {
+           $( ".vfc_btn" ).each(function( index ) {
+             $(this).find(".lds-ring").hide();
+             if(response[$(this).attr('id').substr(2)]){
+               $(this).removeClass("ok no").addClass("ok");
+               $(this).find(".text").text("{{ trans('custom.verified') }}").show();
+             }
+             else{
+               $(this).removeClass("ok no").addClass("no");
+               $(this).find(".text").text("{{ trans('custom.unverified') }}").show();
+             }
+           });
+         },
+         error: function(r, textStatus, err){
+           console.error(r.responseJSON.message);
+         },
+         complete: function () {
+         }
+       });
+       @endif
+     });
+     // 選擇日期事件
+     function onDateSelected(id, fromModal) {
+       $(".zabuto_calendar .table td.active").removeClass('active');
+       $("#" + id).addClass('active');
+       var date = $("#" + id).data("date");
+       var hasEvent = $("#" + id).data("hasEvent");
+       if (hasEvent) {
+         $('#verification').scrollTo('[data-scroll='+date+']:first', 1000, 'swing');
+         selectResume($('[data-scroll='+date+']:first'));
+       }
+     }
+     var $productInfo = $('#rsu_info');
+     var $productAlert = $('p.no_results');
+     var $productVerification = $('#verification');
+     
+     $('#verification .vfc_box').click(function(){
+       $calendar.empty();
+       $("#search").append("<div id='calendar'></div>")
+       var dates = $(this).attr('data-scroll').split('-');
+       $calendar = $("#calendar").zabuto_calendar({
+         language: "en",
+         data: @json($dates),
+         today: false,
+         show_days: true,
+         year: dates[0],
+         month: dates[1],
+         weekstartson: 1,
+         cell_border: true,
+         nav_icon: {
+           prev: '<i class="fa fa-angle-left"></i>',
+           next: '<i class="fa fa-angle-right"></i>'
+         },
+         action: function () {
+           return onDateSelected(this.id, false);
+         },
+       });
+       $(".zabuto_calendar .table td.active").removeClass('active');
+       $("#"+$calendar.attr('id')+"_"+$(this).attr('data-scroll')).addClass('active');
+       // $("#"+$calendar.attr('id')+"_"+$(this).attr('data-scroll')).click();
+       selectResume($(this));
+     });
 
-        function selectResume(resume){
-            $('#verification .vfc_box.active').removeClass('active');
-            resume.addClass('active');
-            @if(request()->goods)
-            var id = {{ request()->goods }};
-            var type = 'good';
-            @else
-            var id = resume.attr('data-product');
-            var type = 'product';
-            @endif
-            $productInfo.hide();
-            $productAlert.html("\
+     function selectResume(resume){
+       $('#verification .vfc_box.active').removeClass('active');
+       resume.addClass('active');
+       @if(request()->goods)
+       var id = {{ request()->goods }};
+       var type = 'good';
+       @else
+       var id = resume.attr('data-product');
+       var type = 'product';
+       @endif
+       $productInfo.hide();
+       $productAlert.html("\
             <div class='lds-ring'>\
                 <div></div>\
                 <div></div>\
                 <div></div>\
                 <div></div>\
             </div>").show();
-            $.get( "{{ route('resumes.product')}}?id="+id+"&type="+type, function() {
-                    // alert( "success" );
-                })
-                .done(function(data) {
-                    $productAlert.hide();
-                    $productInfo.find('h3.harvesting').text( data.product_name|| data.goods_name || '--' );
-                    $productInfo.find('p.farm em').text( data.farm || '--' );
-                    $productInfo.find('p.city em').text( data.city || '--' );
-                    $productInfo.find('p.Township em').text( data.town || '--' );
-                    $productInfo.find('p.address em').text( data.address || '--' );
-                    $productInfo.find('p.tel em').text( data.tel || '--' );
-                    var more = $productInfo.find('p.more em').html('');
-                    var project = $productVerification.find('p.project em').html('');
-                   // var projecttext = $productVerification.find('p.project em').text();
-                   // var DFG=$l->task??'--';
-                  //  alert(projecttext);
-                   // alert(more);
-                    //alert(project);
-                    //project
-                   // if(data.more_info_url){
-                        //more.append("<a href='"+ data.more_info_url + "' target='_blank'>{{ trans('custom.more_info') }}</a>")
-                        var sasda=$productInfo.find('h3.harvesting').text();
-                        more.append("<a href='"+ 'http://140.112.76.152/diagram?' +sasda + "' target='_blank'>{{ trans('custom.more_info') }}</a>")
-                       // project.append("<a href='"+ data.bc_url + "' target='_blank'>{{ trans('custom.smart_contract') }}</a>");
-                   // }
-                    if(data.bc_url == null || data.bc_url == ""){
-                        data.bc_url = "";
-                    }
-                    more.append("<a href='"+ data.bc_url + "' target='_blank'>{{ trans('custom.smart_contract') }}</a>");
-                    
-                    $productInfo.show();
-                })
-                .fail(function(data) {
-                    $productAlert.text(data.responseJSON.message);
-                })
-        }
+       $.get( "{{ route('resumes.product')}}?id="+id+"&type="+type, function() {
+         // alert( "success" );
+       })
+        .done(function(data) {
+          $productAlert.hide();
+          $productInfo.find('h3.harvesting').text( data.product_name|| data.goods_name || '--' );
+          $productInfo.find('p.farm em').text( data.farm || '--' );
+          $productInfo.find('p.city em').text( data.city || '--' );
+          $productInfo.find('p.Township em').text( data.town || '--' );
+          $productInfo.find('p.address em').text( data.address || '--' );
+          $productInfo.find('p.tel em').text( data.tel || '--' );
+          var more = $productInfo.find('p.more em').html('');
+          var project = $productVerification.find('p.project em').html('');
+          // var projecttext = $productVerification.find('p.project em').text();
+          // var DFG=$l->task??'--';
+          //  alert(projecttext);
+          // alert(more);
+          //alert(project);
+          //project
+          // if(data.more_info_url){
+          //more.append("<a href='"+ data.more_info_url + "' target='_blank'>{{ trans('custom.more_info') }}</a>")
+          var sasda=$productInfo.find('h3.harvesting').text();
+          more.append("<a href='"+ 'http://atb.bse.ntu.edu.tw/diagram?' +sasda + "' target='_blank'>{{ trans('custom.more_info') }}</a>")
+          // project.append("<a href='"+ data.bc_url + "' target='_blank'>{{ trans('custom.smart_contract') }}</a>");
+          // }
+          if(data.bc_url == null || data.bc_url == ""){
+            data.bc_url = "";
+          }
+          more.append("<a href='"+ data.bc_url + "' target='_blank'>{{ trans('custom.smart_contract') }}</a>");
+          
+          $productInfo.show();
+        })
+        .fail(function(data) {
+          $productAlert.text(data.responseJSON.message);
+        })
+     }
 
     </script>
 </body>
