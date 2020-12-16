@@ -44,10 +44,10 @@ var loadGraph = function loadGraphFunct() {
 
     d3.json("/foaf" + ".json", function(error, data) {
         json = data;
-        var   graphTag2 = document.getElementById('graph');
-          console.log(graphTag2 );
-         console.log(json );
-        drawGraph(graphTag2, width, height,json);
+        var graphElement = document.getElementById('graph');
+        // console.log(graphTag2);
+        console.log(json);
+        drawGraph(graphElement, width, height, json);
     });
 };
 
@@ -60,3 +60,7 @@ var onload = function onloadFunct() {
     loadGraph();
 };
 document.onload = onload();
+
+// Local Variables:
+// js-indent-level: 4
+// End:

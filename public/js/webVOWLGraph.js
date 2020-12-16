@@ -54,7 +54,7 @@ var   GRAPH_WIDTH = window.innerWidth
 function drawGraph(graphContainerElement, width, height,json) {
     /* ################ SVG CONTAINER ################ */
     var graphContainer = d3.select(graphContainerElement).attr("id", "graph");
-    console.log(graphContainerElement);
+    // console.log(graphContainerElement);
      console.log('start');
     /* CUSTOMIZATION */
     if (width !== undefined) {
