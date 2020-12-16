@@ -54,13 +54,10 @@
        var endpoint = d3.select("#endpoint").property("value")
        var sparql = d3.select("#sparql").property("value")
        var sparql2;
-       //  var sparqlb = "FILTER regex (?Product_label,'" +decodeURI(ary1[1])+ "')}"
-       //  var sparqlb2 = "FILTER regex (?Y,'" +decodeURI(ary1[1])+ "')}"
 
        var sparqlb = "FILTER regex (?Product_label,'" +filter+ "')}"
        var sparqlb2 = "FILTER regex (?Y,'" +filter+ "')}"
        var sparqlb3 = "FILTER regex (?Y,'" +filter+ "')}"
-       //  alert(sparql+sparqlb);
        if (svgControl==1)
        {
          sparql2 = d3.select("#sparql2").property("value")
@@ -76,34 +73,27 @@
          sparql2 = d3.select("#sparql2").property("value")
          var sparql3 = d3.select("#sparql3").property("value")
        }
-       //  alert(sparql2+sparqlb2);
-       var url = endpoint + "?query=" + encodeURIComponent(sparql+sparqlb) + "&output=JSON"
-       var url2 = endpoint + "?query=" + encodeURIComponent(sparql2+sparqlb2) + "&output=JSON"
-       var url3 = "http://140.112.76.152/api/post/3"
-       var url4 = "http://140.112.76.152/api/post/3"
-       var url5 = "http://140.112.76.152/api/post/3"
+
+       var url = endpoint + "?query=" + encodeURIComponent(sparql+sparqlb) + "&output=JSON";
+       var url2 = endpoint + "?query=" + encodeURIComponent(sparql2+sparqlb2) + "&output=JSON";
+       var url3 = "http://atb.bse.ntu.edu.tw/api/post/3";
        var mime = "application/sparql-results+json"
-       var mime2 = "application/sparql-results+json"
-       var mime3 = "application/sparql-results+json"
-       var mime4 = "application/sparql-results+json"
-       var mime5 = "application/sparql-results+json"
-       var json = null
-       var json2 = null
-       var json3 = null
-       var jsonp = null
-       var json2p = null
-       var json3p = null
-       var GO = []
-       console.log(url );
-       console.log(url2 );
+       var json = null;
+       var json2 = null;
+       var json3 = null;
+       var jsonp = null;
+       var json2p = null;
+       var json3p = null;
+       var GO = [];
+       console.log(url);
+       console.log(url2);
+
        d3.xhr(url3)
-         .header("Content-Type", mime3)
+         .header("Content-Type", mime)
          .post(
 
-           '{"sparql":"'+encodeURIComponent(sparql+sparqlb)+ '&output=JSON'+'"}'
-
-           ,
-           function(err, rawData){
+           '{"sparql":"'+encodeURIComponent(sparql+sparqlb)+ '&output=JSON'+'"}',
+           function(err, rawData) {
 
              console.log(rawData );
              json = rawData.responseText
@@ -118,9 +108,8 @@
                jsonp.results.bindings[i]["X"]=1;
              }
 
-
-             d3.xhr(url4)
-               .header("Content-Type", mime4)
+             d3.xhr(url3)
+               .header("Content-Type", mime)
                .post(
 
                  '{"sparql":"'+encodeURIComponent(sparql2+sparqlb2)+ '&output=JSON'+'"}'
@@ -147,16 +136,10 @@
 
                    }
 
-
-
-
-
-
-
                    if (svgControl==3)
                    {
-                     d3.xhr(url5)
-                       .header("Content-Type", mime5)
+                     d3.xhr(url3)
+                       .header("Content-Type", mime)
                        .post(
 
                          '{"sparql":"'+encodeURIComponent(sparql3+sparqlb3)+ '&output=JSON'+'"}'
@@ -189,46 +172,14 @@
 
                    }
 
-
-
-
-
-
-
-
-
-
-
-
                    console.log(JSON.stringify(jsonp));
-
-
 
                    render(jsonp)
                    console.log("ya");
                  }
                );
-
-
-
-
            }
          );
-
-       /*d3.xhr(url, mime, function(request) {
-          json = request.responseText
-          console.log(json );
-          jsonp = JSON.parse(json)
-          d3.xhr(url2, mime2, function(request2) {
-          json2 = request2.responseText
-          console.log(json2 );
-          json2p = JSON.parse(json2)
-          jsonp.results.bindings.push.apply(jsonp.results.bindings,json2p.results.bindings)
-          console.log(JSON.stringify(jsonp));
-          render(jsonp)
-          })
-          })*/
-
 
      }
      function render(json) {
@@ -374,11 +325,6 @@
                            query();
                          }
                        }
-                       // alert(svgControl);
-
-
-
-                       //query2();
                      })
                      .style("fill", function (d) {
                        return color(d.group);

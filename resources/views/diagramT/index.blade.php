@@ -90,13 +90,7 @@
        var url = endpoint + "?query=" + encodeURIComponent(sparql+sparqlb) + "&output=JSON"
        var url2 = endpoint + "?query=" + encodeURIComponent(sparql2+sparqlb2) + "&output=JSON"
        var url3 = "http://atb.bse.ntu.edu.tw/api/post/3"
-       var url4 = "http://atb.bse.ntu.edu.tw/api/post/3"
-       var url5 = "http://atb.bse.ntu.edu.tw/api/post/3"
        var mime = "application/sparql-results+json"
-       var mime2 = "application/sparql-results+json"
-       var mime3 = "application/sparql-results+json"
-       var mime4 = "application/sparql-results+json"
-       var mime5 = "application/sparql-results+json"
        var json = null
        var json2 = null
        var json3 = null
@@ -107,7 +101,7 @@
        console.log(url );
        console.log(url2 );
        d3.xhr(url3)
-         .header("Content-Type", mime3)
+         .header("Content-Type", mime)
          .post(
 
            '{"sparql":"'+encodeURIComponent(sparql+sparqlb)+ '&output=JSON'+'"}'
@@ -129,8 +123,8 @@
              }
 
 
-             d3.xhr(url4)
-               .header("Content-Type", mime4)
+             d3.xhr(url3)
+               .header("Content-Type", mime)
                .post(
 
                  '{"sparql":"'+encodeURIComponent(sparql2+sparqlb2)+ '&output=JSON'+'"}'
@@ -165,8 +159,8 @@
 
                    if (svgControl==3)
                    {
-                     d3.xhr(url5)
-                       .header("Content-Type", mime5)
+                     d3.xhr(url3)
+                       .header("Content-Type", mime)
                        .post(
 
                          '{"sparql":"'+encodeURIComponent(sparql3+sparqlb3)+ '&output=JSON'+'"}'
