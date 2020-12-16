@@ -2,6 +2,6 @@
 
 return [
 
-    'neo4j' => true,
+    'neo4j' => env('neo4j', false),
 
 ];

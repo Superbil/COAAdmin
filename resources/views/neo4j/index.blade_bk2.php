@@ -16,12 +16,6 @@
     <link href="{{ asset('css/animate_min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/popoto/dist/popoto.min.css">
-    <link rel="stylesheet" type="text/css" href="css/vowl.css"/>
-    <link rel="stylesheet" type="text/css" href="css/pagestyle.css"/>
-    <script src="js/specBrowserWarning.js"></script> 
-    <script src="js/d3.v3.min.js"></script> 
-    <script src="js/webVOWLGraph.js"></script> 
-    <script src="js/specVOWL.js"></script>
     <style>
         #popoto-graph:fullscreen {
             width: 100%;
@@ -56,22 +50,38 @@
     @include('partials.header')
     <main id="main">
         <div class="inner">
-             <div id="wrapper">
-  
-  
-  <section id="example">
- 
-    
-    <div id="graph">
-      <div id="resetOption"></div>
-      <div id="sliderOption"></div>
-    </div>
-    
-  </section>
-  
-  
-  
-</div>
+            <section class="ppt-section-main">
+                <div class="ppt-section-header">
+                    <span class="ppt-header-span">Graph</span> search
+                </div>
+
+                <div class="ppt-container-graph">
+                    <nav id="popoto-taxonomy" class="ppt-taxo-nav">
+                        <!-- Label/taxonomy filter will be generated here -->
+                    </nav>
+                    <div id="popoto-graph" class="ppt-div-graph">
+                        <!-- Graph will be generated here-->
+                    </div>
+                </div>
+
+                <div id="popoto-query" class="ppt-container-query">
+                    <!-- Query viewer will be generated here -->
+                </div>
+
+                <div id="popoto-cypher" class="ppt-container-cypher">
+                    <!-- Cypher query viewer will be generated here -->
+                </div>
+
+                <div class="ppt-section-header">
+                    <!-- The total results count is updated with a listener defined below -->
+                    RESULTS <span id="result-total-count" class="ppt-count"></span>
+                </div>
+
+                <div id="popoto-results" class="ppt-container-results">
+                    <!-- Results will be generated here -->
+                </div>
+
+            </section>
         </div>
     </main>
     <!--下版-->
@@ -85,7 +95,8 @@
     </footer>
     <script src="https://unpkg.com/jquery" charset="utf-8"></script>
     <script src="{{ asset('js/custom.js') }}" type="text/javascript"></script>
-   
+    <script src="https://unpkg.com/d3" charset="utf-8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popoto/dist/popoto.min.js"></script>
     <script>
         /**
      * URL used to access Neo4j REST API to execute queries.
@@ -303,11 +314,6 @@
         "RiceProcessing": {
             "returnAttributes": ["name"],
             "constraintAttribute": "name",
-            "autoExpandRelations": true
-        },
-		"說明": {
-            "returnAttributes": ["text"],
-            "constraintAttribute": "text",
             "autoExpandRelations": true
         }
 

@@ -103,6 +103,7 @@
                         <span></span>
                         <em></em>
                     </p>
+               
                 </div>
             </section>
             <section id="search">
@@ -135,38 +136,45 @@
                             @endif
                         </p>
                         <p class="project more">
-                            @if($l->task_url)
-                            <a href="{{ $l->task_url }}" target="_blank">
+                            <em></em>
+                             @if($l->task_url)
+                            <a href="http://140.112.76.152/diagramO?{{ $l->task??'--' }}" target="_blank">
                                 {{ trans('custom.event') }}:{{ $l->task??'--' }}
                             </a>
                             @else 
+                            <a href="http://140.112.76.152/diagramO?{{ $l->task??'--' }}" target="_blank">
                                 {{ trans('custom.event') }}:{{ $l->task??'--' }}
                             @endif
+                           <!--
+                            -->
                         </p>
                         <p class="operators more">
                             @if($l->location_url)
-                            <a href="{{ $l->location_url }}" target="_blank">
+                            <a href="http://140.112.76.152/diagramS?{{ $l->location??'--' }}" target="_blank">
                                 {{ trans('custom.place') }}:{{ $l->location??'--' }}
                             </a>
                             @else
+                            <a href="http://140.112.76.152/diagramS?{{ $l->location??'--' }}" target="_blank">
                                 {{ trans('custom.place') }}:{{ $l->location??'--' }}
                             @endif
                         </p>
                         <p class="tool more">
                             @if($l->tool_url)
-                            <a href="{{ $l->tool_url }}" target="_blank">
+                            <a href="http://140.112.76.152/diagramT?{{ $l->tool??'--' }}" target="_blank">
                                 {{$l->tool_type??'--'}}:{{ $l->tool??'--' }}
                             </a>
                             @else
+                            <a href="http://140.112.76.152/diagramT?{{ $l->tool??'--' }}" target="_blank">
                                 {{$l->tool_type??'--'}}:{{ $l->tool??'--' }}
                             @endif
                         </p>
                         <p class="explain more">
                             @if($l->remark_url)
-                            <a href="{{ $l->remark_url }}" target="_blank">
+                            <a href="http://140.112.76.152/diagramT?XXXXXXXXX" target="_blank">
                             {{ trans('custom.note') }}:{{ $l->remark??'--' }}
                             </a>
                             @else
+                            <a href="http://140.112.76.152/diagramT?XXXXXXXXX" target="_blank">
                             {{ trans('custom.note') }}:{{ $l->remark??'--' }}
                             @endif
                         </p>
@@ -202,6 +210,7 @@
     <script src="{{ asset('js/jquery.scrollTo.min.js') }}"></script>
     <script>
         var $calendar = null;
+      //  var sasda=$productInfo.find('h3.harvesting').text();
         $(document).ready(function () {
             $("#rwd_nav").pageslide({
                 modal: true
@@ -263,6 +272,7 @@
         }
         var $productInfo = $('#rsu_info');
         var $productAlert = $('p.no_results');
+        var $productVerification = $('#verification');
         
         $('#verification .vfc_box').click(function(){
             $calendar.empty();
@@ -321,13 +331,24 @@
                     $productInfo.find('p.address em').text( data.address || '--' );
                     $productInfo.find('p.tel em').text( data.tel || '--' );
                     var more = $productInfo.find('p.more em').html('');
-                    if(data.more_info_url){
-                        more.append("<a href='"+ data.more_info_url + "' target='_blank'>{{ trans('custom.more_info') }}</a>")
-                    }
+                    var project = $productVerification.find('p.project em').html('');
+                   // var projecttext = $productVerification.find('p.project em').text();
+                   // var DFG=$l->task??'--';
+                  //  alert(projecttext);
+                   // alert(more);
+                    //alert(project);
+                    //project
+                   // if(data.more_info_url){
+                        //more.append("<a href='"+ data.more_info_url + "' target='_blank'>{{ trans('custom.more_info') }}</a>")
+                        var sasda=$productInfo.find('h3.harvesting').text();
+                        more.append("<a href='"+ 'http://140.112.76.152/diagram?' +sasda + "' target='_blank'>{{ trans('custom.more_info') }}</a>")
+                       // project.append("<a href='"+ data.bc_url + "' target='_blank'>{{ trans('custom.smart_contract') }}</a>");
+                   // }
                     if(data.bc_url == null || data.bc_url == ""){
                         data.bc_url = "";
                     }
                     more.append("<a href='"+ data.bc_url + "' target='_blank'>{{ trans('custom.smart_contract') }}</a>");
+                    
                     $productInfo.show();
                 })
                 .fail(function(data) {

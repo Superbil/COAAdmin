@@ -32,13 +32,12 @@
                                 {{ trans('custom.resume_latest') }}
                             </a>
                         </li>
-                        @if(config('setting.neo4j'))
                         <li class="{{ (request()->route()->getName()=='neo4j.index')?'active':'' }}">
-                            <a href="{{ route('neo4j.index') }}" title="neo4j">
-                                Neo4j
+                            <a href="{{ route('neo4j.index') }}" title="neo4j"
+                                title="{{ trans('custom.knowledge_graph') }}">
+                                {{ trans('custom.knowledge_graph') }}
                             </a>
                         </li>
-                        @endif
                     </ul>
                     <label class="switch">
                         <input type="checkbox" id="togBtn" {{ session('locale')=='en'?'checked':'' }}>

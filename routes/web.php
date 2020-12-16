@@ -28,6 +28,10 @@ Route::group([
     #Demo
     // Route::get('/neo4j/{image}', 'Neo4jController@view')->name('neo4j.view');
     Route::get('/neo4j', 'Neo4jController@index')->name('neo4j.index');
+    Route::get('/diagram', 'DiagramController@index')->name('diagram.index');
+    Route::get('/diagramO', 'DiagramOController@index')->name('diagramO.index');
+    Route::get('/diagramS', 'DiagramSController@index')->name('diagramS.index');
+    Route::get('/diagramT', 'DiagramTController@index')->name('diagramT.index');
     #二維碼
     Route::get('/qrcode', function () {
         return view('qrcode');
