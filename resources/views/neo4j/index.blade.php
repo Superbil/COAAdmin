@@ -18,10 +18,14 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/popoto/dist/popoto.min.css">
     <link rel="stylesheet" type="text/css" href="css/vowl.css"/>
     <link rel="stylesheet" type="text/css" href="css/pagestyle.css"/>
-    <script src="js/specBrowserWarning.js"></script>
-    <script src="js/d3.v3.min.js"></script>
-    <script src="js/webVOWLGraph.js"></script>
-    <script src="js/specVOWL.js"></script>
+    <!--Web Javascripts-->
+    <script src="{{ asset('js/specBrowserWarning.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/d3.v3.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/jquery-1.11.3.js') }}" type="text/javascript"></script>
+
+    <script src="{{ asset('js/webVOWLGraph.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/specVOWL.js') }}" type="text/javascript"></script>
+
     <style>
      #popoto-graph:fullscreen {
          width: 100%;
@@ -79,7 +83,7 @@
         <p>{{ trans('custom.service_line') }}：+886-2-33663468</p>
       </div>
     </footer>
-    <script src="https://unpkg.com/jquery" charset="utf-8"></script>
+
     <script src="{{ asset('js/custom.js') }}" type="text/javascript"></script>
 
     <script>

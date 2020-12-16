@@ -15,9 +15,10 @@
     <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('css/animate_min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <!--Web Javascripts-->
+    <script src="{{ asset('js/jquery-1.11.3.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/d3.v3.min.js') }}" type="text/javascript"></script>
 
-
-    <script src="/js/d3.v3.min.js"></script>
     <script>
 
      var svg;
@@ -554,10 +555,8 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
         <p>{{ trans('custom.service_line') }}：+886-2-33663468</p>
       </div>
     </footer>
-    <script src="https://unpkg.com/jquery" charset="utf-8"></script>
+
     <script src="{{ asset('js/custom.js') }}" type="text/javascript"></script>
-
-
 
   </body>
 

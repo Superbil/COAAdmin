@@ -15,9 +15,10 @@
     <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('css/animate_min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <!--Web Javascripts-->
+    <script src="{{ asset('js/jquery-1.11.3.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/d3.v3.min.js') }}" type="text/javascript"></script>
 
-
-    <script src="/js/d3.v3.min.js"></script>
     <script>
 
      var svg;
@@ -408,11 +409,13 @@
     <div id="navbar_top"> <a id="rwd_nav" href="#m_nav">
       <div class="ico"><span></span></div>
     </a> </div>
+
     <!--上版-->
     @include('partials.header')
     <main id="main">
       <div class="inner">
         <div id="chart"></div>
+
         <div id="query" style="margin: 10px">
           <h1 style="display:none">D3 forcegraph SPARQL</h1>
           <form class="form-inline">
@@ -441,8 +444,6 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
             ?Operation rdfs:label ?Operation_label .
             ?ProductX  tgap:process ?X  .
             ?X  rdfs:label ?Y .
-
-
           </textarea>
 
 
@@ -456,14 +457,13 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
             ?Operation rdfs:label ?Operation_label .
             ?ProductX  tgap:process ?X  .
             ?X  rdfs:label ?Y .
-
-
           </textarea>
 
 
         </div>
       </div>
     </main>
+
     <!--下版-->
     <footer id="footer">
       <div class="inner">
@@ -473,10 +473,8 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
         <p>{{ trans('custom.service_line') }}：+886-2-33663468</p>
       </div>
     </footer>
-    <script src="https://unpkg.com/jquery" charset="utf-8"></script>
+
     <script src="{{ asset('js/custom.js') }}" type="text/javascript"></script>
-
-
 
   </body>
 
