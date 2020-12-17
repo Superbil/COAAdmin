@@ -15,9 +15,11 @@
     <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('css/animate_min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/vowl.css') }}" rel="stylesheet">
     <!--Web Javascripts-->
     <script src="{{ asset('js/jquery-1.11.3.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/d3.v3.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/webVOWLGraph.js') }}" type="text/javascript"></script>
 
     <script>
 
@@ -25,6 +27,41 @@
      var svgControl=1;
      var filterControl=0;
      var filter;
+
+     var graphTag = document.getElementById('graph')
+       , linkDistanceClassLabel
+       , linkDistanceLiteralLabel;
+
+     var graphOptions = function graphOptionsFunct() {
+
+       var resetOption = document.getElementById('resetOption'),
+           sliderOption = document.getElementById('sliderOption');
+
+       d3.select(resetOption)
+         .append("button")
+         .attr("id", "reset")
+         .property("type", "reset")
+         .text("Reset")
+         .on("click", resetGraph);
+
+       var slidDiv = d3.select(sliderOption)
+                       .append("div")
+                       .attr("id", "distanceSlider");
+
+       linkDistanceClassLabel = slidDiv.append("label")
+                                       .attr("for", "distanceSlider")
+                                       .text(DEFAULT_VISIBLE_LINKDISTANCE);
+       linkDistanceLiteralLabel = linkDistanceClassLabel;
+
+       linkDistanceClassSlider = slidDiv.append("input")
+                                        .attr("type", "range")
+                                        .attr("min", 10)
+                                        .attr("max", 600)
+                                        .attr("value", DEFAULT_VISIBLE_LINKDISTANCE)
+                                        .attr("step", 10)
+                                        .on("input", changeDistance);
+       linkDistanceLiteralSlider = linkDistanceClassSlider;
+     };
 
      function query() {
 
@@ -166,17 +203,16 @@
                              console.log(JSON.stringify(jsonp));
 
                            }
-                           render(jsonp)
+                           renderAtVOWL(jsonp)
                            console.log("yayaya");
                          }
                        );
 
+                   } else {
+                     /* console.log(JSON.stringify(jsonp)); */
+                     renderAtVOWL(jsonp)
+                     console.log("ya");
                    }
-
-                   console.log(JSON.stringify(jsonp));
-
-                   render(jsonp)
-                   console.log("ya");
                  }
                );
            }
@@ -219,35 +255,7 @@
          d3forcegraph(graph, option2)
        }
      }
-     function sparql2graph(json, config) {
-       var data = json.results.bindings
-       var graph = {
-         "nodes": [],
-         "links": []
-       }
-       var check = d3.map()
-       var index = 0
 
-       for (var i = 0; i < data.length; i++) {
-         var key1 = data[i][config.key1].value
-         var key2 = data[i][config.key2].value
-         var key3 = data[i][config.key3]
-         var label1 = config.label1 ? data[i][config.label1].value : key1
-         var label2 = config.label2 ? data[i][config.label2].value : key2
-         if (!check.has(key1)) {
-           graph.nodes.push({"key": key1, "label": label1 , "group": key3})
-           check.set(key1, index)
-           index++
-         }
-         if (!check.has(key2)) {
-           graph.nodes.push({"key": key2, "label": label2 , "group": key3+1})
-           check.set(key2, index)
-           index++
-         }
-         graph.links.push({"source": check.get(key1), "target": check.get(key2)})
-       }
-       return graph
-     }
      function d3forcegraph(json, config) {
        if(svgControl==2)
        {
@@ -414,6 +422,12 @@
     @include('partials.header')
     <main id="main">
       <div class="inner">
+
+        <div id="graph">
+          <div id="resetOption"></div>
+          <div id="sliderOption"></div>
+        </div>
+
         <div id="chart"></div>
 
         <div id="query" style="margin: 10px">
