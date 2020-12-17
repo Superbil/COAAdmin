@@ -81,7 +81,7 @@ function drawGraph(graphContainerElement, width, height,json) {
     /* ################ FORCE LAYOUT ################ */
 
     /* Initialize fields */
-    initialize();
+    initialize(json);
 
     /* Creates the force layout with data from the json file */
     force = d3.layout.force()
@@ -420,7 +420,7 @@ var resetGraph = function resetGraphFunct() {
 };
 
 /* Initialize various fields */
-var initialize = function initializeFunct() {
+var initialize = function initializeFunct(json) {
     for (var i = 0; i < json.nodes.length; i++) {
         var   node = json.nodes[i]
             , maxTextWidth
