@@ -15,60 +15,72 @@
     <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('css/animate_min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/vowl.css') }}" rel="stylesheet">
     <!--Web Javascripts-->
     <script src="{{ asset('js/jquery-1.11.3.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/d3.v3.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/webVOWLGraph.js') }}" type="text/javascript"></script>
 
     <script>
 
-     var svg;
      var svgControl=3;
-     var filterControl=0;
-     var filter;
+
+     var graphTag = document.getElementById('graph')
+       , linkDistanceClassLabel
+       , linkDistanceLiteralLabel;
+
+     var graphOptions = function graphOptionsFunct() {
+
+       var resetOption = document.getElementById('resetOption'),
+           sliderOption = document.getElementById('sliderOption');
+
+       d3.select(resetOption)
+         .append("button")
+         .attr("id", "reset")
+         .property("type", "reset")
+         .text("Reset")
+         .on("click", resetGraph);
+
+       var slidDiv = d3.select(sliderOption)
+                       .append("div")
+                       .attr("id", "distanceSlider");
+
+       linkDistanceClassLabel = slidDiv.append("label")
+                                       .attr("for", "distanceSlider")
+                                       .text(DEFAULT_VISIBLE_LINKDISTANCE);
+       linkDistanceLiteralLabel = linkDistanceClassLabel;
+
+       linkDistanceClassSlider = slidDiv.append("input")
+                                        .attr("type", "range")
+                                        .attr("min", 10)
+                                        .attr("max", 600)
+                                        .attr("value", DEFAULT_VISIBLE_LINKDISTANCE)
+                                        .attr("step", 10)
+                                        .on("input", changeDistance);
+       linkDistanceLiteralSlider = linkDistanceClassSlider;
+     };
 
      function query() {
-
-
-
-
        var url = location.href;
 
        //再來用去尋找網址列中是否有資料傳遞(QueryString)
-       if(url.indexOf('?')!=-1)
-       {
+       if (url.indexOf('?')!=-1) {
          //之後去分割字串把分割後的字串放進陣列中
          var ary1 = url.split('?');
-         //此時ary1裡的內容為：
-         //ary1[0] = 'index.aspx'，ary2[1] = 'id=U001&name=GQSM'
-         // decodeURI(encoded)
-         // alert(decodeURI(ary1[1]));
-         // alert(decodeURI(ary1[1]));
-         // alert(decodeURI(ary1[2]));
-
-         if(ary1[1].indexOf('(')!=-1)
-         {
+         if (ary1[1].indexOf('(')!=-1) {
            var split=ary1[1].split('(');
            ary1[1]=split[0];
          }
 
        }
-       if(filterControl==0)
-       {
-         filter = decodeURI(ary1[1]);
-       }
-       var endpoint = d3.select("#endpoint").property("value")
-       var sparql = d3.select("#sparql").property("value")
-       var sparql2;
-       //  var sparqlb = "FILTER regex (?Product_label,'" +decodeURI(ary1[1])+ "')}"
-       //  var sparqlb2 = "FILTER regex (?Y,'" +decodeURI(ary1[1])+ "')}"
-       var sparqlb = "FILTER regex (?Operation_labelX,'" +filter+ "')}"
-       var sparqlb3 = "FILTER regex (?Operation_label,'" +filter+ "')}"
-       var sparqlb2 = "FILTER ( ?S2 ='" +filter+ "')FILTER ( ?Product_label = ?S )}"
-       //alert(sparqlb3);
-       //FILTER ( ?S2 = "龍燈精煉油" )
+       var filter = decodeURI(ary1[1]);
 
-       //FILTER ( ?Product_label = ?S )
-       //  alert(sparql+sparqlb);
+       var sparql = d3.select("#sparql").property("value");
+       var sparql2;
+       var sparqlb = "FILTER regex (?Operation_labelX,'" + filter + "')}";
+       var sparqlb3 = "FILTER regex (?Operation_label,'" + filter + "')}";
+       var sparqlb2 = "FILTER ( ?S2 ='" + filter + "')FILTER ( ?Product_label = ?S )}";
+
        if (svgControl==1)
        {
          sparql2 = d3.select("#sparql2").property("value")
@@ -79,46 +91,29 @@
          sparql2 = d3.select("#sparql3").property("value")
        }
 
-       if (svgControl==3)
-       {
+       if (svgControl==3) {
          sparql2 = d3.select("#sparql2").property("value")
          var sparql3 = d3.select("#sparql3").property("value")
        }
-       // alert(sparql+sparqlb);
-       //  alert(sparql2+sparqlb2);
 
-       //  alert(sparql3+sparqlb3);
-       var url = endpoint + "?query=" + encodeURIComponent(sparql+sparqlb) + "&output=JSON"
-       var url2 = endpoint + "?query=" + encodeURIComponent(sparql2+sparqlb2) + "&output=JSON"
-       var url3 = "http://atb.bse.ntu.edu.tw/api/post/3"
-       var mime = "application/sparql-results+json"
-       var json = null
-       var json2 = null
-       var json3 = null
-       var jsonp = null
-       var json2p = null
-       var json3p = null
-       var GO = []
-       console.log(url );
-       console.log(url2 );
+       var url3 = "http://atb.bse.ntu.edu.tw/api/post/3";
+       var mime = "application/sparql-results+json";
+
        d3.xhr(url3)
          .header("Content-Type", mime)
          .post(
 
-           '{"sparql":"'+encodeURIComponent(sparql+sparqlb)+ '&output=JSON'+'"}'
+           '{"sparql":"' + encodeURIComponent(sparql + sparqlb) + '&output=JSON'+'"}',
 
-           ,
-           function(err, rawData){
+           function(err, rawData) {
 
-             console.log(rawData );
-             json = rawData.responseText
-             console.log(json );
-             jsonp = JSON.parse(json)
-             console.log("ya");
+             var json = rawData.responseText
+             console.dir(json);
 
-             for (i=0;i<jsonp.results.bindings.length;i++)
-             {
-               console.log("GOOD");
+             var jsonp = JSON.parse(json)
+
+             console.log("results.bindings");
+             for (i=0; i < jsonp.results.bindings.length; i++) {
                console.log(jsonp.results.bindings[i]);
                jsonp.results.bindings[i]["X"]=1;
              }
@@ -127,18 +122,16 @@
              d3.xhr(url3)
                .header("Content-Type", mime)
                .post(
+                 '{"sparql":"' + encodeURIComponent(sparql2 + sparqlb2) + '&output=JSON'+'"}',
 
-                 '{"sparql":"'+encodeURIComponent(sparql2+sparqlb2)+ '&output=JSON'+'"}'
+                 function(err, rawData) {
+                   console.log(rawData);
 
-                 ,
-                 function(err, rawData){
-                   console.log(rawData );
-                   if (svgControl!=0)
-                   {
-                     json2 = rawData.responseText
+                   if (svgControl != 0) {
+                     var json2 = rawData.responseText
 
-                     console.log(json2 );
-                     json2p = JSON.parse(json2)
+                     console.log(json2);
+                     var json2p = JSON.parse(json2)
 
                      for (i=0;i<json2p.results.bindings.length;i++)
                      {
@@ -147,34 +140,23 @@
                        json2p.results.bindings[i]["X"]=2;
                      }
 
-                     jsonp.results.bindings.push.apply(jsonp.results.bindings,json2p.results.bindings)
+                     jsonp.results.bindings.push.apply(jsonp.results.bindings, json2p.results.bindings);
                      console.log(JSON.stringify(jsonp));
-
                    }
 
-
-
-
-
-
-
-                   if (svgControl==3)
-                   {
+                   if (svgControl == 3) {
                      d3.xhr(url3)
                        .header("Content-Type", mime)
                        .post(
+                         '{"sparql":"' + encodeURIComponent(sparql3+sparqlb3) + '&output=JSON' + '"}',
 
-                         '{"sparql":"'+encodeURIComponent(sparql3+sparqlb3)+ '&output=JSON'+'"}'
-
-                         ,
-                         function(err, rawData){
-                           console.log(rawData );
-                           if (svgControl!=0)
-                           {
-                             json3 = rawData.responseText
+                         function(err, rawData) {
+                           console.log(rawData);
+                           if (svgControl != 0) {
+                             var json3 = rawData.responseText
 
                              console.log(json3 );
-                             json3p = JSON.parse(json3)
+                             var json3p = JSON.parse(json3)
 
                              for (i=0;i<json3p.results.bindings.length;i++)
                              {
@@ -183,60 +165,31 @@
                                json3p.results.bindings[i]["X"]=3;
                              }
 
-                             jsonp.results.bindings.push.apply(jsonp.results.bindings,json3p.results.bindings)
-                             console.log(JSON.stringify(jsonp));
+                             jsonp.results.bindings.push.apply(jsonp.results.bindings, json3p.results.bindings);
+                             console.dir(jsonp);
 
                            }
-                           render(jsonp)
-                           console.log("yayaya");
+                           /* render(jsonp) */
+                           /* renderAtVOWL(jsonp); */
+                           console.log("svgControl 3 Finish");
                          }
                        );
 
                    }
 
-
-
-
-
-
-
-
-
-
-
-
-                   console.log(JSON.stringify(jsonp));
-
-
-
-                   render(jsonp)
-                   console.log("ya");
+                   /* console.dir(jsonp) */
+                   /* render(jsonp) */
+                   renderAtVOWL(jsonp);
                  }
                );
-
-
-
-
            }
          );
-
-       /*d3.xhr(url, mime, function(request) {
-          json = request.responseText
-          console.log(json );
-          jsonp = JSON.parse(json)
-          d3.xhr(url2, mime2, function(request2) {
-          json2 = request2.responseText
-          console.log(json2 );
-          json2p = JSON.parse(json2)
-          jsonp.results.bindings.push.apply(jsonp.results.bindings,json2p.results.bindings)
-          console.log(JSON.stringify(jsonp));
-          render(jsonp)
-          })
-          })*/
-
-
      }
-     function render(json) {
+
+     function renderAtVOWL(json) {
+       var height = 600, width = 1000;
+       var graphElement = document.getElementById('graph');
+
        var config = {
          "key1": "Product",
          "key2": "Operation",
@@ -244,35 +197,20 @@
          "label1": "Product_label",
          "label2": "Operation_label",
        }
-       var graph = sparql2graph(json, config)
-       var option = {
-         "radius": 10,
-         "charge": -200,
-         "distance": 50,
-         "width": 1000,
-         "height": 750,
-       }
-       var option2 = {
-         "radius": 10,
-         "charge": -200,
-         "distance": 200,
-         "width": 1000,
-         "height": 750,
-       }
-       var jsonLength=0;
-       for (var i in json.results.bindings)
-       {jsonLength++;}
-       console.log(jsonLength);
-       if(jsonLength>50)
-       {
-         d3forcegraph(graph, option2)
-       }
-       else
-       {
-         d3forcegraph(graph, option2)
-       }
+       var graph = sparql2graph(json, config);
+
+       console.log('renderAtVOWL');
+       console.dir(graph);
+       if (graph === undefined) { return; }
+       drawGraph(graphElement, width, height, graph);
      }
+
      function sparql2graph(json, config) {
+       if (json === undefined || json.results.bindings === undefined) {
+         console.log('no json.results.bindings');
+         return;
+       }
+
        var data = json.results.bindings
        var graph = {
          "nodes": [],
@@ -288,177 +226,33 @@
          var label1 = config.label1 ? data[i][config.label1].value : key1
          var label2 = config.label2 ? data[i][config.label2].value : key2
          if (!check.has(key1)) {
-           graph.nodes.push({"key": key1, "label": label1 , "group": key3})
+           graph.nodes.push({
+             "key": key1,
+             "name": label1,
+             "group": key3,
+             "type": "class"
+           })
            check.set(key1, index)
            index++
          }
          if (!check.has(key2)) {
-           graph.nodes.push({"key": key2, "label": label2 , "group": key3+1})
+           graph.nodes.push({
+             "key": key2,
+             "name": label2,
+             "group": key3 + 1,
+             "type": "class"
+           })
            check.set(key2, index)
            index++
          }
-         graph.links.push({"source": check.get(key1), "target": check.get(key2)})
+         graph.links.push({
+           "source": check.get(key1),
+           "target": check.get(key2)
+         })
        }
        return graph
      }
-     function d3forcegraph(json, config) {
-       if(svgControl==2)
-       {
-         var color = d3.scale.category10()
-                       .range(['#1f77b4', '#ff7f0e', '#d62728', '#2ca02c', '#9467bd', '#8c564b']);
-       }
-       else
-       {
-         var color = d3.scale.category10();
-       }
-       console.log(color);
-       //if (svgControl==1)
-       //{
-       d3.select("svg").remove();
-       //}
-       svg = d3.select("#chart")
-               .append("svg")
-               .attr("width", config.width)
-               .attr("height", config.height)
-       var link = svg.selectAll(".link")
-                     .data(json.links)
-                     .enter()
-                     .append("line")
-                     .attr("class", "link")
-                     .style("marker-end",  "url(#suit)")
-       var node = svg.selectAll(".node")
-                     .data(json.nodes)
-                     .enter()
-                     .append("g")
-                     .on("click", function(d){
-                       if (d.group==2)
-                       {
-                         if (svgControl==1)
-                         {
-                           svgControl=3;
-                           alert("切換(工具類型)");
-                           query();
-                         }
-                         else if (svgControl==2) {
-                           svgControl=3;
-                           //alert("切換(施作地點)"+d.group);
-                           alert("切換(施作地點)(工具類型)");
-                           query();
-                         }
-                         else
-                         {
-                           svgControl=3;
-                           //alert("切換(施作地點)"+d.group);
-                           //alert("切換(工具類型)");
-                           alert("無法切換(本查詢只有此一型態)");
-                           query();
-                         }
-                       }
-                       if (d.group==1)
-                       {
-                         alert("無法切換(本查詢只有此一型態)");
-                       }
-                       /*if (d.group==1)
-                          {
-                          if (filterControl==0)
-                          {
-                          svgControl=0;
-                          filterControl=1;
-                          //alert("切換(原始圖)"+d.group);
-                          alert("切換(查詢)"+d3.select(this).select("text").text());
-                          //filter=d3.select(this).select("text").text();
-                          query();
-                          }else
-                          {
-                          svgControl=0;
-                          filterControl=0;
-                          //alert("切換(原始圖)"+d.group);
-                          alert("切換(原始圖)");
-                          //filter="";
-                          query();
-                          }
-                          }*/
-                       // alert(svgControl);
-
-
-
-                       //query2();
-                     })
-                     .style("fill", function (d) {
-                       return color(d.group);
-                     })
-                     .attr("group", function(d) {return d.group})
-                     .style("cursor", "pointer");
-
-
-
-
-
-
-       var drag = d3.behavior.drag();
-       drag.on("dragend", function() {
-         d3.event.sourceEvent.stopPropagation(); // silence other listeners
-       });
-       var circle = node.append("circle")
-                        .attr("class", "node")
-                        .attr("r", config.radius)
-       var text = node.append("text")
-                      .text(function(d) {return d.label})
-                      .attr("class", "node")
-       var force = d3.layout.force()
-                     .charge(config.charge)
-                     .linkDistance(config.distance)
-                     .size([config.width, config.height])
-                     .nodes(json.nodes)
-                     .links(json.links)
-                     .start()
-       force.on("tick", function() {
-         link.attr("x1", function(d) {return d.source.x})
-             .attr("y1", function(d) {return d.source.y})
-             .attr("x2", function(d) {return d.target.x})
-             .attr("y2", function(d) {return d.target.y})
-         text.attr("x", function(d) {return d.x})
-             .attr("y", function(d) {return d.y})
-         circle.attr("cx", function(d) {return d.x})
-             .attr("cy", function(d) {return d.y})
-       })
-
-       //---Insert-------
-       svg.append("defs").selectAll("marker")
-                     .data(["suit", "licensing", "resolved"])
-                     .enter().append("marker")
-                     .attr("id", function(d) { return d; })
-                     .attr("viewBox", "0 -5 10 10")
-                     .attr("refX", 25)
-                     .attr("refY", 0)
-                     .attr("markerWidth", 6)
-                     .attr("markerHeight", 6)
-                     .attr("orient", "auto")
-                     .append("path")
-                     .attr("d", "M0,-5L10,0L0,5 L10,0 L0, -5")
-                     .style("stroke", "#4679BD")
-                     .style("opacity", "0.6");
-
-       node.call(force.drag)
-     }
     </script>
-    <style>
-     .link {
-         stroke: #999;
-     }
-     .node {
-         stroke: black;
-         opacity: 0.5;
-     }
-     circle.node {
-         stroke-width: 1px;
-         //fill: RoyalBlue;
-     }
-     text.node {
-         font-family: "sans-serif";
-         font-size: 8px;
-     }
-    </style>
 
   </head>
 
@@ -466,21 +260,30 @@
     <div id="navbar_top"> <a id="rwd_nav" href="#m_nav">
       <div class="ico"><span></span></div>
     </a> </div>
+
     <!--上版-->
     @include('partials.header')
     <main id="main">
       <div class="inner">
+
+        <div id="graph">
+          <div id="resetOption"></div>
+          <div id="sliderOption"></div>
+        </div>
+
         <div id="chart"></div>
-        <div id="query" style="margin: 10px">
+        <div id="query" style="margin: 10px; display:none;">
+
           <h1 style="display:none">D3 forcegraph SPARQL</h1>
           <form class="form-inline">
-            <label style="display:none">SPARQL endpoint:</label>
+            <label>SPARQL endpoint:</label>
             <div class="input-append">
-              <input id="endpoint" class="span6" value="http://tgap.atb.bse.ntu.edu.tw/sparql" type="text" style="display:none">
-              <button class="btn" type="button" onclick="query()" style="display:none">Query</button>
+              <input id="endpoint" class="span6" value="http://tgap.atb.bse.ntu.edu.tw/sparql" type="text">
+              <button class="btn" type="button" onclick="query()">Query</button>
             </div>
           </form>
-          <textarea id="sparql" class="span9" rows=15 style="display:none">
+
+          <textarea id="sparql" class="span9" rows=15>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
             PREFIX tgap: <http://tgap.atb.bse.ntu.edu.tw/>
             SELECT DISTINCT  (coalesce(?X,?class) as ?Product)  (coalesce(?Product_labelX,?class) as ?Operation)  (coalesce(?Y,?class) as ?Product_label) (coalesce(?Product_labelX,?class) as ?Operation_label)  WHERE {
@@ -491,13 +294,9 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
             ?ProductX  tgap:process ?X  .
             ?X  rdfs:label ?Y .
-
-
-
-
           </textarea>
 
-          <textarea id="sparql2" class="span9" rows=15 style="display:none">
+          <textarea id="sparql2" class="span9" rows=15>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
             PREFIX tgap: <http://tgap.atb.bse.ntu.edu.tw/>
             SELECT distinct (coalesce(?Product_label,?class) as ?Product)  ?Operation  ?Product_label ?Operation_label  WHERE {
@@ -506,8 +305,6 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
             ?Operation rdfs:label ?Operation_label .
             ?ProductX  tgap:process ?X  .
             ?X  rdfs:label ?Y
-
-
 
             OPTIONAL {
 
@@ -518,22 +315,13 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
             ?Operation rdfs:label ?Operation_label .
             ?ProductX  tgap:process ?X  .
             ?X  rdfs:label ?Y .
-
             }
 
-
             }
-
-
-
-
-
-
           </textarea>
 
 
-          <textarea id="sparql3" class="span9" rows=15 style="display:none">
-
+          <textarea id="sparql3" class="span9" rows=15>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
             PREFIX tgap: <http://tgap.atb.bse.ntu.edu.tw/>
             SELECT distinct (coalesce(?Product_label,?class) as ?Product)  ?Operation  ?Product_label ?Operation_label  WHERE {
@@ -543,14 +331,6 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
             ?Operation rdfs:label ?Operation_label .
             ?ProductX  tgap:process ?X  .
             ?X  rdfs:label ?Y .
-
-
-
-
-
-
-
-
           </textarea>
 
 
