@@ -15,16 +15,52 @@
     <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('css/animate_min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/vowl.css') }}" rel="stylesheet">
     <!--Web Javascripts-->
     <script src="{{ asset('js/jquery-1.11.3.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/d3.v3.min.js') }}" type="text/javascript"></script>
-
+    <script src="{{ asset('js/webVOWLGraph.js') }}" type="text/javascript"></script>
     <script>
 
      var svg;
      var svgControl=3;
      var filterControl=0;
      var filter;
+
+     var graphTag = document.getElementById('graph')
+       , linkDistanceClassLabel
+       , linkDistanceLiteralLabel;
+
+     var graphOptions = function graphOptionsFunct() {
+
+       var resetOption = document.getElementById('resetOption'),
+           sliderOption = document.getElementById('sliderOption');
+
+       d3.select(resetOption)
+         .append("button")
+         .attr("id", "reset")
+         .property("type", "reset")
+         .text("Reset")
+         .on("click", resetGraph);
+
+       var slidDiv = d3.select(sliderOption)
+                       .append("div")
+                       .attr("id", "distanceSlider");
+
+       linkDistanceClassLabel = slidDiv.append("label")
+                                       .attr("for", "distanceSlider")
+                                       .text(DEFAULT_VISIBLE_LINKDISTANCE);
+       linkDistanceLiteralLabel = linkDistanceClassLabel;
+
+       linkDistanceClassSlider = slidDiv.append("input")
+                                        .attr("type", "range")
+                                        .attr("min", 10)
+                                        .attr("max", 600)
+                                        .attr("value", DEFAULT_VISIBLE_LINKDISTANCE)
+                                        .attr("step", 10)
+                                        .on("input", changeDistance);
+       linkDistanceLiteralSlider = linkDistanceClassSlider;
+     };
 
      function query() {
 
@@ -192,8 +228,8 @@
                              console.log(JSON.stringify(jsonp));
 
                            }
-                           render(jsonp)
-                           console.log("yayaya");
+                           renderAtVOWL(jsonp)
+                           console.log("svgControl 3 Finish");
                          }
                        );
 
@@ -210,12 +246,12 @@
 
 
                    else{
-                     console.log(JSON.stringify(jsonp));
+                     /* console.log(JSON.stringify(jsonp)); */
 
 
 
-                     render(jsonp)
-                     console.log("ya");
+                     renderAtVOWL(jsonp)
+                     console.log("svgControl Finish");
                    }
                  }
                );
@@ -242,6 +278,26 @@
 
 
      }
+
+     function renderAtVOWL(json) {
+       var height = 600, width = 1000;
+       var graphElement = document.getElementById('graph');
+
+       var config = {
+         "key1": "Product",
+         "key2": "Operation",
+         "key3": "X",
+         "label1": "Product_label",
+         "label2": "Operation_label",
+       }
+       var graph = sparql2graph(json, config);
+
+       console.log('renderAtVOWL');
+       console.dir(graph);
+       if (graph === undefined) { return; }
+       drawGraph(graphElement, width, height, graph);
+     }
+
      function render(json) {
        var config = {
          "key1": "Product",
@@ -278,7 +334,13 @@
          d3forcegraph(graph, option2)
        }
      }
+
      function sparql2graph(json, config) {
+       if (json === undefined || json.results.bindings === undefined) {
+         console.log('no json.results.bindings');
+         return;
+       }
+
        var data = json.results.bindings
        var graph = {
          "nodes": [],
@@ -294,19 +356,33 @@
          var label1 = config.label1 ? data[i][config.label1].value : key1
          var label2 = config.label2 ? data[i][config.label2].value : key2
          if (!check.has(key1)) {
-           graph.nodes.push({"key": key1, "label": label1 , "group": key3})
+           graph.nodes.push({
+             "key": key1,
+             "name": label1,
+             "group": key3,
+             "type": "class"
+           })
            check.set(key1, index)
            index++
          }
          if (!check.has(key2)) {
-           graph.nodes.push({"key": key2, "label": label2 , "group": key3+1})
+           graph.nodes.push({
+             "key": key2,
+             "name": label2,
+             "group": key3 + 1,
+             "type": "class"
+           })
            check.set(key2, index)
            index++
          }
-         graph.links.push({"source": check.get(key1), "target": check.get(key2)})
+         graph.links.push({
+           "source": check.get(key1),
+           "target": check.get(key2)
+         })
        }
        return graph
      }
+
      function d3forcegraph(json, config) {
        if(svgControl==2)
        {
@@ -477,6 +553,12 @@
     @include('partials.header')
     <main id="main">
       <div class="inner">
+
+        <div id="graph">
+          <div id="resetOption"></div>
+          <div id="sliderOption"></div>
+        </div>
+
         <div id="chart"></div>
         <div id="query" style="margin: 10px">
           <h1 style="display:none">D3 forcegraph SPARQL</h1>
