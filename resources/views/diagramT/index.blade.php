@@ -23,7 +23,8 @@
 
     <script>
 
-     var svgControl=3;
+     var svgControl = 3;
+     var sparqlType = 't';
 
      var graphTag = document.getElementById('graph')
        , linkDistanceClassLabel
@@ -75,25 +76,23 @@
        }
        var filter = decodeURI(ary1[1]);
 
-       var sparql = d3.select("#sparql").property("value");
+       var sparql = d3.select("#sparql_" + sparqlType + "_1").property("value");
        var sparql2;
        var sparqlb = "FILTER regex (?Operation_labelX,'" + filter + "')}";
        var sparqlb3 = "FILTER regex (?Operation_label,'" + filter + "')}";
        var sparqlb2 = "FILTER ( ?S2 ='" + filter + "')FILTER ( ?Product_label = ?S )}";
 
-       if (svgControl==1)
-       {
-         sparql2 = d3.select("#sparql2").property("value")
+       /* diagram */
+       if (svgControl==1) {
+         sparql2 = d3.select("#sparql_" + sparqlType + "_2").property("value")
        }
-
-       if (svgControl==2)
-       {
-         sparql2 = d3.select("#sparql3").property("value")
+       else if (svgControl==2) {
+         sparql2 = d3.select("#sparql_" + sparqlType + "_3").property("value")
        }
-
-       if (svgControl==3) {
-         sparql2 = d3.select("#sparql2").property("value")
-         var sparql3 = d3.select("#sparql3").property("value")
+       /* diagramT */
+       else if (svgControl==3) {
+         sparql2 = d3.select("#sparql_" + sparqlType + "_2").property("value")
+         var sparql3 = d3.select("#sparql_" + sparqlType + "_3").property("value")
        }
 
        var url3 = "http://atb.bse.ntu.edu.tw/api/post/3";
@@ -169,17 +168,14 @@
                              console.dir(jsonp);
 
                            }
-                           /* render(jsonp) */
-                           /* renderAtVOWL(jsonp); */
+
+                           renderAtVOWL(jsonp);
                            console.log("svgControl 3 Finish");
                          }
                        );
-
+                   } else {
+                     renderAtVOWL(jsonp);
                    }
-
-                   /* console.dir(jsonp) */
-                   /* render(jsonp) */
-                   renderAtVOWL(jsonp);
                  }
                );
            }
@@ -216,7 +212,42 @@
             </div>
           </form>
 
-          <textarea id="sparql" class="span9" rows=15>
+          <textarea id="sparql_1" class="span9" rows=15 style="display:none">
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX tgap: <http://tgap.atb.bse.ntu.edu.tw/>
+            SELECT ?Product  (coalesce(?Operation_label,?class) as ?Operation)  ?Product_label ?Operation_label  WHERE {
+            ?Product  tgap:isProcessedBy  ?OperationX  .
+            ?Product  rdfs:label ?Product_label .
+            ?OperationX rdfs:label ?Operation_label .
+          </textarea>
+
+          <textarea id="sparql_2" class="span9" rows=15 style="display:none">
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX tgap: <http://tgap.atb.bse.ntu.edu.tw/>
+            SELECT (coalesce(?Product_label,?class) as ?Product)  ?Operation  ?Product_label ?Operation_label ?X ?Y WHERE {
+            ?ProductX tgap:processLocation ?Operation  .
+
+            ?ProductX rdfs:label ?Product_label .
+            ?Operation rdfs:label ?Operation_label .
+            ?ProductX  tgap:process ?X  .
+            ?X  rdfs:label ?Y .
+          </textarea>
+
+
+          <textarea id="sparql_3" class="span9" rows=15 style="display:none">
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX tgap: <http://tgap.atb.bse.ntu.edu.tw/>
+            SELECT (coalesce(?Product_label,?class) as ?Product)  ?Operation  ?Product_label ?Operation_label ?X ?Y WHERE {
+            ?ProductX tgap:uses ?Operation  .
+
+            ?ProductX rdfs:label ?Product_label .
+            ?Operation rdfs:label ?Operation_label .
+            ?ProductX  tgap:process ?X  .
+            ?X  rdfs:label ?Y .
+          </textarea>
+
+
+          <textarea id="sparql_t_1" class="span9" rows=15>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
             PREFIX tgap: <http://tgap.atb.bse.ntu.edu.tw/>
             SELECT DISTINCT  (coalesce(?X,?class) as ?Product)  (coalesce(?Product_labelX,?class) as ?Operation)  (coalesce(?Y,?class) as ?Product_label) (coalesce(?Product_labelX,?class) as ?Operation_label)  WHERE {
@@ -229,7 +260,7 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
             ?X  rdfs:label ?Y .
           </textarea>
 
-          <textarea id="sparql2" class="span9" rows=15>
+          <textarea id="sparql_t_2" class="span9" rows=15>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
             PREFIX tgap: <http://tgap.atb.bse.ntu.edu.tw/>
             SELECT distinct (coalesce(?Product_label,?class) as ?Product)  ?Operation  ?Product_label ?Operation_label  WHERE {
@@ -254,7 +285,7 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
           </textarea>
 
 
-          <textarea id="sparql3" class="span9" rows=15>
+          <textarea id="sparql_t_3" class="span9" rows=15>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
             PREFIX tgap: <http://tgap.atb.bse.ntu.edu.tw/>
             SELECT distinct (coalesce(?Product_label,?class) as ?Product)  ?Operation  ?Product_label ?Operation_label  WHERE {
