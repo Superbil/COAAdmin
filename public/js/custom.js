@@ -67,46 +67,58 @@ function sparql2graph(json, config) {
     return;
   }
 
-  var data = json.results.bindings
+  var data = json.results.bindings;
   var graph = {
     "nodes": [],
     "links": []
   }
-  var check = d3.map()
-  var index = 0
+  var check = d3.map();
+  var index = 0;
+  var hasColorFirst = false;
 
   for (var i = 0; i < data.length; i++) {
-    var key1 = data[i][config.key1].value
-    var key2 = data[i][config.key2].value
-    var key3 = data[i][config.key3]
-    var label1 = config.label1 ? data[i][config.label1].value : key1
-    var label2 = config.label2 ? data[i][config.label2].value : key2
-    if (!check.has(key1)) {
+    var key1Value = data[i][config.key1].value
+    var key2Value = data[i][config.key2].value
+    var key3Value = data[i][config.key3].value
+    var label1 = config.label1 ? data[i][config.label1].value : key1Value
+    var label2 = config.label2 ? data[i][config.label2].value : key2Value
+
+    if (!check.has(key1Value)) {
       graph.nodes.push({
-        "key": key1,
+        "key": key1Value,
         "name": label1,
-        "group": key3,
-        "type": "class"
-      })
-      check.set(key1, index)
-      index++
+        "group": key3Value,
+        "type": hasColorFirst ? 'rdfsClass' : 'class'
+      });
+      check.set(key1Value, index);
+      index++;
     }
-    if (!check.has(key2)) {
+
+    if (!check.has(key2Value)) {
       graph.nodes.push({
-        "key": key2,
+        "key": key2Value,
         "name": label2,
-        "group": key3 + 1,
-        "type": "class"
-      })
-      check.set(key2, index)
-      index++
+        "group": key3Value + 1,
+        "type": hasColorFirst ? 'rdfsClass' : 'class'
+      });
+      hasColorFirst = true;
+      check.set(key2Value, index);
+      index++;
     }
-    graph.links.push({
-      "source": check.get(key1),
-      "target": check.get(key2)
-    })
+
+    if (check.has(key1Value) && check.has(key2Value)) {
+      var key1ValueAndKey2Value = key1Value + '_' + key2Value;
+      if (!check.has(key1ValueAndKey2Value)) {
+        graph.links.push({
+          "source": check.get(key1Value),
+          "target": check.get(key2Value)
+        });
+        check.set(key1ValueAndKey2Value);
+      }
+    }
   }
-  return graph
+
+  return graph;
 }
 
 // Local Variables:
