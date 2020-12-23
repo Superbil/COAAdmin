@@ -6,7 +6,7 @@
 /* ################ VARIABLES ################ */
 var   GRAPH_WIDTH = window.innerWidth
     , GRAPH_HEIGHT = window.innerHeight
-    , DEFAULT_VISIBLE_LINKDISTANCE = 60
+    , DEFAULT_VISIBLE_LINKDISTANCE = 140
     , visibleLinkDistance = DEFAULT_VISIBLE_LINKDISTANCE
     , visibleLiteralLinkDistance = DEFAULT_VISIBLE_LINKDISTANCE
     , CHARGE = -1000
