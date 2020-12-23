@@ -108,3 +108,7 @@ function sparql2graph(json, config) {
   }
   return graph
 }
+
+// Local Variables:
+// js-indent-level: 4
+// End:
