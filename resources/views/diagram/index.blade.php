@@ -15,6 +15,7 @@
     <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('css/animate_min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/custom-style.css') }}" rel="stylesheet">
     <!--Web Javascripts-->
     <script src="{{ asset('js/jquery-1.11.3.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/d3.v3.min.js') }}" type="text/javascript"></script>
@@ -385,23 +386,6 @@
        node.call(force.drag)
      }
     </script>
-    <style>
-     .link {
-         stroke: #999;
-     }
-     .node {
-         stroke: black;
-         opacity: 0.5;
-     }
-     circle.node {
-         stroke-width: 1px;
-         //fill: RoyalBlue;
-     }
-     text.node {
-         font-family: "sans-serif";
-         font-size: 8px;
-     }
-    </style>
 
   </head>
 
