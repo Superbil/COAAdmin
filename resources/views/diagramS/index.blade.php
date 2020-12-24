@@ -344,20 +344,20 @@
                          if (svgControl==1)
                          {
                            svgControl=3;
-                           alert("切換(施作地點)(工具類型)");
+                           /* alert("切換(施作地點)(工具類型)"); */
                            query();
                          }
                          else if (svgControl==2) {
                            svgControl=3;
                            //alert("切換(施作地點)"+d.group);
-                           alert("切換(施作地點)(工具類型)");
+                           /* alert("切換(施作地點)(工具類型)"); */
                            query();
                          }
                          else
                          {
                            svgControl=1;
                            //alert("切換(施作地點)"+d.group);
-                           alert("切換(施作地點)");
+                           /* alert("切換(施作地點)"); */
                            query();
                          }
                        }

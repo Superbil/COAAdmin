@@ -337,13 +337,13 @@
                          if (svgControl==1)
                          {
                            svgControl=3;
-                           alert("切換(工具類型)");
+                           /* alert("切換(工具類型)"); */
                            query();
                          }
                          else if (svgControl==2) {
                            svgControl=3;
                            //alert("切換(施作地點)"+d.group);
-                           alert("切換(施作地點)(工具類型)");
+                           /* alert("切換(施作地點)(工具類型)"); */
                            query();
                          }
                          else
@@ -351,7 +351,7 @@
                            svgControl=3;
                            //alert("切換(施作地點)"+d.group);
                            //alert("切換(工具類型)");
-                           alert("無法切換(本查詢只有此一型態)");
+                           /* alert("無法切換(本查詢只有此一型態)"); */
                            query();
                          }
                        }

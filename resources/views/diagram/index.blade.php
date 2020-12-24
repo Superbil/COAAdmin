@@ -284,20 +284,20 @@
                          if (svgControl==1)
                          {
                            svgControl=2;
-                           alert("切換(工具類型)");
+                           /* alert("切換(工具類型)"); */
                            query();
                          }
                          else if (svgControl==2) {
                            svgControl=3;
                            //alert("切換(施作地點)"+d.group);
-                           alert("切換(施作地點)(工具類型)");
+                           /* alert("切換(施作地點)(工具類型)"); */
                            query();
                          }
                          else
                          {
                            svgControl=1;
                            //alert("切換(施作地點)"+d.group);
-                           alert("切換(施作地點)");
+                           /* alert("切換(施作地點)"); */
                            query();
                          }
                        }
@@ -308,7 +308,7 @@
                            svgControl=0;
                            filterControl=1;
                            //alert("切換(原始圖)"+d.group);
-                           alert("切換(查詢)"+d3.select(this).select("text").text());
+                           /* alert("切換(查詢)"+d3.select(this).select("text").text()); */
                            filter=d3.select(this).select("text").text();
                            if(filter.indexOf('(')!=-1)
                            {
@@ -322,7 +322,7 @@
                            svgControl=0;
                            filterControl=0;
                            //alert("切換(原始圖)"+d.group);
-                           alert("切換(原始圖)");
+                           /* alert("切換(原始圖)"); */
                            filter="";
                            query();
                          }
